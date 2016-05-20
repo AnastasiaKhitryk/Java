@@ -75,10 +75,12 @@
     </complexType>
 
     <complexType name="ErrorPage">
-        <all>
-            <element name="exception-type" type="string"/>
-            <element name="error-code" type="int"/>
+        <sequence>
+            <choice>
+                <element name="exception-type" type="string"/>
+                <element name="error-code" type="int"/>
+            </choice>
             <element name="location" type="string"/>
-        </all>
+        </sequence>
     </complexType>
 </schema>
