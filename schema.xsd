@@ -1,86 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="http://www.epam.com/task1"
-            xmlns:xsd="http://www.epam.com/task1">
-            <element name="web-app">
-                <complexType>
-                    <all>
-                        <element name="display-name" type="string"></element>
-                        <element name="welcome-file-list">
-                            <complexType>
-                                <sequence>
-                                    <element name="welcome-file" type="string"></element>
-                                </sequence>
-                            </complexType>
-                        </element>
-                        <element name="filter">
-                            <complexType>
-                                <sequence>
-                                    <element name="filter-name" type="string"></element>
-                                    <element name="filter-class" type="string"></element>
-                                    <element name="init-param">
-                                        <complexType>
-                                            <sequence>
-                                                <element name="param-name" type="string"></element>
-                                                <element name="param-value" type="string"></element>
-                                            </sequence>
-                                        </complexType>
-                                    </element>
-                                </sequence>
-                            </complexType>
-                        </element>
-                        <element name="filter-mapping">
-                            <complexType>
-                                <sequence>
-                                    <element name="filter-name" type="string"></element>
-                                    <element name="url-pattern" type="string"></element>
-                                    <element name="dispatcher" type="string"></element>
-                                </sequence>
-                            </complexType>
-                        </element>
-                        <element name="listener">
-                            <complexType>
-                                <sequence>
-                                    <element name="listener-class" type="string"></element>
-                                </sequence>
-                            </complexType>
-                        </element>
-                        <element name="servlet">
-                            <complexType>
-                                <all>
-                                    <element name="servlet-name" type="string"></element>
-                                    <element name="servlet-class" type="string"></element>
-                                        <element name="init-param">
-                                            <complexType>
-                                                <sequence>
-                                                    <element name="param-name" type="string"></element>
-                                                    <element name="param-value" type="string"></element>
-                                                </sequence>
-                                            </complexType>
-                                        </element>
-                                </all>
-                            </complexType>
-                        </element>
-                        <element name="servlet-mapping">
-                            <complexType>
-                                <sequence>
-                                    <element name="servlet-name" type="string"></element>
-                                    <element name="url-pattern" type="string"></element>
-                                </sequence>
-                            </complexType>
-                        </element>
-                        <element name="error-page">
-                            <complexType>
-                                <all>
-                                    <element name="exception-type" type="string"></element>
-                                    <element name="error-code" type="int"></element>
-                                    <element name="location" type="string"></element>
-                                </all>
-                            </complexType>
-                        </element>
-                    </all>
-                    <attribute name="id" type="ID"></attribute>
-                    <attribute name="version" type="string"></attribute>
-                </complexType>
-            </element>
+        targetNamespace="http://www.epam.com/task1"
+        xmlns:tns="http://www.epam.com/task1">
+
+    <element name="web-app">
+        <complexType>
+            <sequence>                           <!-- если all, то невозможно использовать unbounded -->
+                <choice minOccurs="0" maxOccurs="unbounded">
+                    <element name="display-name" type="string"/>
+                    <element name="welcome-file-list" type="tns:WelcomeFileList"/>
+                    <element name="filter" type="tns:Filter"/>
+                    <element name="filter-mapping" type="tns:FilterMapping"/>
+                    <element name="listener" type="tns:Listener"/>
+                    <element name="servlet" type="tns:Servlet"/>
+                    <element name="servlet-mapping" type="tns:ServletMapping"/>
+                    <element name="error-page" type="tns:ErrorPage"/>
+                </choice>
+            </sequence>
+
+            <attribute name="id" type="ID"/>
+            <attribute name="version" type="string"/>
+
+        </complexType>
+    </element>
+
+    <complexType name="WelcomeFileList">
+        <sequence>
+            <element name="welcome-file" type="string" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Filter">
+        <sequence>
+            <element name="filter-name" type="string"/>
+            <element name="filter-class" type="string"/>
+            <element name="init-param" type="tns:InitParam" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="InitParam">
+        <sequence>
+            <element name="param-name" type="string"/>
+            <element name="param-value" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="FilterMapping">
+        <sequence>
+            <element name="filter-name" type="string"/>
+            <element name="url-pattern" type="string"/>
+            <element name="dispatcher" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Listener">
+        <sequence>
+            <element name="listener-class" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Servlet">
+        <sequence>
+            <element name="servlet-name" type="string"/>
+            <element name="servlet-class" type="string"/>
+            <element name="init-param" type="tns:InitParam" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="ServletMapping">
+        <sequence>
+            <element name="servlet-name" type="string"/>
+            <element name="url-pattern" type="string"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="ErrorPage">
+        <all>
+            <element name="exception-type" type="string"/>
+            <element name="error-code" type="int"/>
+            <element name="location" type="string"/>
+        </all>
+    </complexType>
 </schema>
