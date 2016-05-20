@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.epam.com/task1"
+            xmlns:xsd="http://www.epam.com/task1">
+            <element name="web-app">
+                <complexType>
+                    <all>
+                        <element name="display-name" type="string"></element>
+                        <element name="welcome-file-list">
+                            <complexType>
+                                <sequence>
+                                    <element name="welcome-file" type="string"></element>
+                                </sequence>
+                            </complexType>
+                        </element>
+                        <element name="filter">
+                            <complexType>
+                                <sequence>
+                                    <element name="filter-name" type="string"></element>
+                                    <element name="filter-class" type="string"></element>
+                                    <element name="init-param">
+                                        <complexType>
+                                            <sequence>
+                                                <element name="param-name" type="string"></element>
+                                                <element name="param-value" type="string"></element>
+                                            </sequence>
+                                        </complexType>
+                                    </element>
+                                </sequence>
+                            </complexType>
+                        </element>
+                        <element name="filter-mapping">
+                            <complexType>
+                                <sequence>
+                                    <element name="filter-name" type="string"></element>
+                                    <element name="url-pattern" type="string"></element>
+                                    <element name="dispatcher" type="string"></element>
+                                </sequence>
+                            </complexType>
+                        </element>
+                        <element name="listener">
+                            <complexType>
+                                <sequence>
+                                    <element name="listener-class" type="string"></element>
+                                </sequence>
+                            </complexType>
+                        </element>
+                        <element name="servlet">
+                            <complexType>
+                                <all>
+                                    <element name="servlet-name" type="string"></element>
+                                    <element name="servlet-class" type="string"></element>
+                                        <element name="init-param">
+                                            <complexType>
+                                                <sequence>
+                                                    <element name="param-name" type="string"></element>
+                                                    <element name="param-value" type="string"></element>
+                                                </sequence>
+                                            </complexType>
+                                        </element>
+                                </all>
+                            </complexType>
+                        </element>
+                        <element name="servlet-mapping">
+                            <complexType>
+                                <sequence>
+                                    <element name="servlet-name" type="string"></element>
+                                    <element name="url-pattern" type="string"></element>
+                                </sequence>
+                            </complexType>
+                        </element>
+                        <element name="error-page">
+                            <complexType>
+                                <all>
+                                    <element name="exception-type" type="string"></element>
+                                    <element name="error-code" type="int"></element>
+                                    <element name="location" type="string"></element>
+                                </all>
+                            </complexType>
+                        </element>
+                    </all>
+                    <attribute name="id" type="ID"></attribute>
+                    <attribute name="version" type="string"></attribute>
+                </complexType>
+            </element>
+</schema>
