@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.com/task2"
+        xmlns:tns="http://www.epam.com/task2">
+    
+    <element name="menu">
+        <complexType>
+            <sequence>
+                <element name="category" type="tns:Category" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Category">
+        <sequence>
+            <element name="food" type="tns:Food" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        
+        <attribute name="id" type="ID"/>
+        <attribute name="name" type="tns:CategoryName"/>
+    </complexType>
+
+    <complexType name="Food">
+        <sequence>
+            <element name="photo" type="anyURI" minOccurs="1" maxOccurs="1"></element>
+            <element name="name" type="Name" minOccurs="1" maxOccurs="1"></element>
+            <choice minOccurs="0" maxOccurs="1">
+                <element name="description" type="string"></element>
+                <element name="complexDescription" type="tns:complexDescription"></element>
+            </choice>
+            <choice minOccurs="1" maxOccurs="1">
+                <element name="portion" type="tns:Portion"></element>
+                <element name="count" type="tns:Count"></element>
+            </choice>
+            <choice minOccurs="0">
+                <element name="price" type="tns:Price"></element>
+                <element name="complexPrice" type="tns:ComplexPrice" maxOccurs="1"></element>
+            </choice>
+        </sequence>
+        
+        <attribute name="id" type="ID"/>
+    </complexType>
+
+    <complexType name="complexDescription">
+        <sequence minOccurs="1" maxOccurs="5">
+            <element name="description" type="string"></element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="Portion">       <!-- string+pattern  ex:(333/333/333 or 333/333 or 333)-->
+        <restriction base="string">
+            <pattern value="[0-9]"></pattern>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="Count">          <!-- unsignedByte or string+pattern ex:(33 шт.) -->
+        <restriction base="string">
+            <pattern value="[0-9]"></pattern>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="Price">
+        <restriction base="unsignedInt">
+            <length value="5"></length>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ComplexPrice">
+        <sequence>
+            <element name="price" type="tns:Price" minOccurs="1"></element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="CategoryName">
+        <restriction>
+            <enumeration value="Холодные закуски"></enumeration>
+            <enumeration value="Горячие закуски"></enumeration>
+            <enumeration value="Завтраки"></enumeration>
+            <enumeration value="Салаты"></enumeration>
+            <enumeration value="Супы"></enumeration>
+            <enumeration value="Рыбные блюда"></enumeration>
+            <enumeration value="Мясные блюда"></enumeration>
+            <enumeration value="Гарниры"></enumeration>
+            <enumeration value="Десерт"></enumeration>
+        </restriction>
+    </simpleType>
+
+</schema>
