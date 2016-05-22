@@ -1,122 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:menu xmlns:xs="http://www.epam.com/task2"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.epam.com/task2 schema_menu.xsd">
-    
-    <category id="ID-1" name="Холодные закуски">
-        <food id="ID-11">
-            <photo>"www.example.ru"</photo>
-            <name>Ассорти рыбное</name>
-            <description>Слабосоленая форель, семга</description>
-            <portion>100/20/15</portion>
-            <price></price>
-        </food>
-        <food id="ID-12">
-            <photo>"www.example.ru"</photo>
-            <name>Тарталетки с красной икрой</name>
-            <description>Тарталетки с красной икрой</description>
-            <portion>60/50</portion>
-            <price></price>
-        </food>
-        <food id="ID-13">
-            <photo>"www.example.ru"</photo>
-            <name>Закуска по-русски</name>
-            <description>Кусочки атлантической сельди с отварным картофелем, луком, лимоном и зеленью</description>
-            <portion>70/50/210</portion>
-            <price></price>
-        </food>
-        <food id="ID-14">
-            <photo>"www.example.ru"</photo>
-            <name>Ассорти баклажаны</name>
-            <complexDescription>
-                <header>Жареные баклажаны с помидорами</header>
-                <addition>c помидорами</addition>
-                <addition>с чесноком</addition>
-                <addition>с орехами</addition>
-            </complexDescription>
-            <portion>70/50/210</portion>
-            <complexPrice></complexPrice>
-        </food>
-        <food id="ID-15">
-            <photo>"www.example.ru"</photo>
-            <name>Фестиваль салатов</name>
-            <description></description>
-            <portion>400/10</portion>
-            <price></price>
-        </food>
-        <food id="ID-16">
-            <photo>"www.example.ru"</photo>
-            <name>Лимон</name>
-            <description></description>
-            <portion>60</portion>
-            <price></price>
-        </food>
-    </category>
-    <category id="ID-2" name="Горячие закуски">
-        <food id="ID-21">
-            <photo>"www.example.ru"</photo>
-            <name>Ломбио с шампиньонами</name>
-            <description>Фасоль с шампиньонами и грецким орехом</description>
-            <portion>150/5</portion>
-            <price>105</price>
-        </food>
-        <food id="ID-22">
-            <photo>"www.example.ru"</photo>
-            <name>Жульен</name>
-            <complexDescription>
-                <header></header>
-                <addition>с курицей</addition>
-                <addition>с грибами</addition>
-            </complexDescription>
-            <portion>120/1</portion>
-            <complexPrice>
-                <price>1.145</price>
-                <price>2.155</price>
-            </complexPrice>
-        </food>
-        <food id="ID-23">
-            <photo>"www.example.ru"</photo>
-            <name>Ахтамар мясной</name>
-            <description>Колбаса, ветчина, буженина, сыр, запеченные на мангале в лаваше</description>
-            <count>1 шт.</count>
-            <price>165</price>
-        </food>
-        <food id="ID-24">
-            <photo>"www.example.ru"</photo>
-            <name>Сюрприз</name>
-            <description></description>
-            <count>1 шт.</count>
-            <price>260</price>
-        </food>
-        <food id="ID-25">
-            <photo>"www.example.ru"</photo>
-            <name>Эскарго</name>
-            <description>Виноградные улитки, фаршированные по бургундски</description>
-            <count>12 шт.</count>
-            <price>230</price>
-        </food>
-    </category>
-    <category id="ID-3" name="Завтраки">
-        <food id="ID-31">
-            <photo>"www.example.ru"</photo>
-            <name>Глазунья</name>
-            <description>2 яйца(на выбор: ветчина, сыр, помидоры)</description>
-            <portion>150</portion>
-            <price></price>
-        </food>
-        <food id="ID-32">
-            <photo>"www.example.ru"</photo>
-            <name>Омлет</name>
-            <description></description>
-            <portion>100</portion>
-            <price></price>
-        </food>
-        <food id="ID-33">
-            <photo>"www.example.ru"</photo>
-            <name>Блинчики с мясом</name>
-            <description>Жаренные блинчики с мясом</description>
-            <portion>150</portion>
-            <price></price>
-        </food>
-    </category>
-</xs:menu>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.com/task2"
+        xmlns:tns="http://www.epam.com/task2">
+
+    <element name="menu">
+        <complexType>
+            <sequence>
+                <element name="category" type="tns:Category" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Category">
+        <sequence>
+            <element name="food" type="tns:Food" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+
+        <attribute name="id" type="ID"/>
+        <attribute name="name" type="tns:CategoryName"/>
+    </complexType>
+
+    <complexType name="Food">
+        <sequence>
+            <element name="photo" type="anyURI" minOccurs="1" maxOccurs="1"></element>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+            <choice>
+                <element name="description" type="string"></element>
+                <element name="complexDescription" type="tns:complexDescription"></element>
+            </choice>
+            <choice>
+                <element name="portion" type="string"></element>
+                <element name="count" type="string"></element>
+            </choice>
+            <choice>
+                <element name="price" type="tns:Price"></element>
+                <element name="complexPrice" type="tns:ComplexPrice" maxOccurs="1"></element>
+            </choice>
+        </sequence>
+
+        <attribute name="id" type="ID"/>
+    </complexType>
+
+    <complexType name="complexDescription">
+        <sequence>
+            <element name="header" maxOccurs="1"></element>
+            <sequence>
+                <element name="addition" type="string" minOccurs="0" maxOccurs="5"></element>
+            </sequence>
+        </sequence>
+    </complexType>
+
+    <simpleType name="Price">
+        <restriction base="string">
+            <minLength value="0"></minLength>
+            <maxLength value="5"></maxLength>
+        </restriction>
+    </simpleType>
+
+    <complexType name="ComplexPrice">
+        <sequence>
+            <element name="price" type="tns:Price" minOccurs="0" maxOccurs="5"></element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="CategoryName">
+        <restriction base="string">
+            <enumeration value="Холодные закуски"></enumeration>
+            <enumeration value="Горячие закуски"></enumeration>
+            <enumeration value="Завтраки"></enumeration>
+            <enumeration value="Салаты"></enumeration>
+            <enumeration value="Супы"></enumeration>
+            <enumeration value="Рыбные блюда"></enumeration>
+            <enumeration value="Мясные блюда"></enumeration>
+            <enumeration value="Гарниры"></enumeration>
+            <enumeration value="Десерт"></enumeration>
+        </restriction>
+    </simpleType>
+
+</schema>
