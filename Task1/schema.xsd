@@ -5,7 +5,7 @@
 
     <element name="web-app">
         <complexType>
-            <sequence>                           <!-- если all, то невозможно использовать unbounded -->
+            <sequence>
                 <choice minOccurs="0" maxOccurs="unbounded">
                     <element name="display-name" type="string"/>
                     <element name="welcome-file-list" type="tns:WelcomeFileList"/>
@@ -76,10 +76,10 @@
 
     <complexType name="ErrorPage">
         <sequence>
-        <choice>
-            <element name="exception-type" type="string"/>
-            <element name="error-code" type="int"/>
-        </choice>
+            <choice>
+                <element name="exception-type" type="string"/>
+                <element name="error-code" type="int"/>
+            </choice>
             <element name="location" type="string"/>
         </sequence>
     </complexType>

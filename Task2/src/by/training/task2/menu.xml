@@ -1,28 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<menu>
-    <category id="1" name="Холодные закуски">
-        <food id="1.1">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:menu xmlns:xs="http://www.epam.com/task2"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.epam.com/task2 schema_menu.xsd">
+
+    <category id="ID-1" name="Холодные закуски">
+        <food id="ID-11">
             <photo>"www.example.ru"</photo>
             <name>Ассорти рыбное</name>
             <description>Слабосоленая форель, семга</description>
             <portion>100/20/15</portion>
             <price></price>
         </food>
-        <food id="1.2">
+        <food id="ID-12">
             <photo>"www.example.ru"</photo>
             <name>Тарталетки с красной икрой</name>
             <description>Тарталетки с красной икрой</description>
             <portion>60/50</portion>
             <price></price>
         </food>
-        <food id="1.3">
+        <food id="ID-13">
             <photo>"www.example.ru"</photo>
             <name>Закуска по-русски</name>
             <description>Кусочки атлантической сельди с отварным картофелем, луком, лимоном и зеленью</description>
             <portion>70/50/210</portion>
             <price></price>
         </food>
-        <food id="1.4">
+        <food id="ID-14">
             <photo>"www.example.ru"</photo>
             <name>Ассорти баклажаны</name>
             <complexDescription>
@@ -34,14 +37,14 @@
             <portion>70/50/210</portion>
             <complexPrice></complexPrice>
         </food>
-        <food id="1.5">
+        <food id="ID-15">
             <photo>"www.example.ru"</photo>
             <name>Фестиваль салатов</name>
             <description></description>
             <portion>400/10</portion>
             <price></price>
         </food>
-        <food id="1.6">
+        <food id="ID-16">
             <photo>"www.example.ru"</photo>
             <name>Лимон</name>
             <description></description>
@@ -49,15 +52,15 @@
             <price></price>
         </food>
     </category>
-    <category id="2" name="Горячие закуски">
-        <food id="21">
+    <category id="ID-2" name="Горячие закуски">
+        <food id="ID-21">
             <photo>"www.example.ru"</photo>
             <name>Ломбио с шампиньонами</name>
             <description>Фасоль с шампиньонами и грецким орехом</description>
             <portion>150/5</portion>
             <price>105</price>
         </food>
-        <food id="22">
+        <food id="ID-22">
             <photo>"www.example.ru"</photo>
             <name>Жульен</name>
             <complexDescription>
@@ -71,21 +74,21 @@
                 <price>2.155</price>
             </complexPrice>
         </food>
-        <food id="23">
+        <food id="ID-23">
             <photo>"www.example.ru"</photo>
             <name>Ахтамар мясной</name>
             <description>Колбаса, ветчина, буженина, сыр, запеченные на мангале в лаваше</description>
             <count>1 шт.</count>
             <price>165</price>
         </food>
-        <food id="24">
+        <food id="ID-24">
             <photo>"www.example.ru"</photo>
             <name>Сюрприз</name>
             <description></description>
             <count>1 шт.</count>
             <price>260</price>
         </food>
-        <food id="25">
+        <food id="ID-25">
             <photo>"www.example.ru"</photo>
             <name>Эскарго</name>
             <description>Виноградные улитки, фаршированные по бургундски</description>
@@ -93,22 +96,22 @@
             <price>230</price>
         </food>
     </category>
-    <category id="3" name="Завтраки">
-        <food id="31">
+    <category id="ID-3" name="Завтраки">
+        <food id="ID-31">
             <photo>"www.example.ru"</photo>
             <name>Глазунья</name>
             <description>2 яйца(на выбор: ветчина, сыр, помидоры)</description>
             <portion>150</portion>
             <price></price>
         </food>
-        <food id="32">
+        <food id="ID-32">
             <photo>"www.example.ru"</photo>
             <name>Омлет</name>
             <description></description>
             <portion>100</portion>
             <price></price>
         </food>
-        <food id="33">
+        <food id="ID-33">
             <photo>"www.example.ru"</photo>
             <name>Блинчики с мясом</name>
             <description>Жаренные блинчики с мясом</description>
@@ -116,4 +119,4 @@
             <price></price>
         </food>
     </category>
-</menu>
+</xs:menu>
