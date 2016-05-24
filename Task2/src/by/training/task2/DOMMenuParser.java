@@ -4,10 +4,8 @@ import by.training.task2.entity.Category;
 import by.training.task2.entity.ComplexDescription;
 import by.training.task2.entity.ComplexPrice;
 import by.training.task2.entity.Food;
-import org.w3c.dom.Document;
+import org.w3c.dom.*;
 import org.apache.xerces.parsers.DOMParser;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
