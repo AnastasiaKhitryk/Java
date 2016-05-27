@@ -17,4 +17,27 @@ public class ComplexPrice {
     public void setPrice(String price){
         this.complexPrice.add(price);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ComplexPrice that = (ComplexPrice) o;
+
+        return complexPrice != null ? complexPrice.equals(that.complexPrice) : that.complexPrice == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return complexPrice != null ? complexPrice.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "ComplexPrice{" +
+                "complexPrice=" + complexPrice +
+                '}';
+    }
 }

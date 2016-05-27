@@ -1,7 +1,7 @@
 package by.training.task3.parser.handler;
 
 import by.training.task3.parser.entity.*;
-import by.training.task3.parser.utill.MenuTagName;
+import by.training.task3.parser.entity.MenuTagName;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

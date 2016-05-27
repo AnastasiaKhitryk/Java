@@ -1,4 +1,4 @@
-package by.training.task3.parser;
+package by.training.task3.parser.start;
 
 import by.training.task3.parser.entity.Category;
 import by.training.task3.parser.handler.MenuSaxHandler;

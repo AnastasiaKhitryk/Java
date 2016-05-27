@@ -85,4 +85,52 @@ public class Food {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Food food = (Food) o;
+
+        if (id != null ? !id.equals(food.id) : food.id != null) return false;
+        if (photo != null ? !photo.equals(food.photo) : food.photo != null) return false;
+        if (name != null ? !name.equals(food.name) : food.name != null) return false;
+        if (description != null ? !description.equals(food.description) : food.description != null) return false;
+        if (portion != null ? !portion.equals(food.portion) : food.portion != null) return false;
+        if (price != null ? !price.equals(food.price) : food.price != null) return false;
+        if (complexPrice != null ? !complexPrice.equals(food.complexPrice) : food.complexPrice != null) return false;
+        if (complexDescription != null ? !complexDescription.equals(food.complexDescription) : food.complexDescription != null)
+            return false;
+        return count != null ? count.equals(food.count) : food.count == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (portion != null ? portion.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (complexPrice != null ? complexPrice.hashCode() : 0);
+        result = 31 * result + (complexDescription != null ? complexDescription.hashCode() : 0);
+        result = 31 * result + (count != null ? count.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id='" + id + '\'' +
+                ", photo='" + photo + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", portion='" + portion + '\'' +
+                ", price='" + price + '\'' +
+                ", complexPrice=" + complexPrice +
+                ", complexDescription=" + complexDescription +
+                ", count='" + count + '\'' +
+                '}';
+    }
 }

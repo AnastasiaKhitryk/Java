@@ -1,4 +1,4 @@
-package by.training.task3.parser.utill;
+package by.training.task3.parser.entity;
 
 public enum MenuTagName {
     CATEGORY,
