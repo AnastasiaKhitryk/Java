@@ -13,39 +13,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DOMMenuParser {
+    
+    public static final String PATH = "src/by/training/task2/menu.xml";
+    public static final String CATEGORY = "category";
+    public static final String FOOD = "food";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String PHOTO = "photo";
+    public static final String COMPLEX_DESCRIPTION = "complexDescription";
+    public static final String HEADER = "header";
+    public static final String ADDITION = "addition"
+    public static final String COMPLEX_DESCRIPTION = "complexDescription";
+    public static final String COMPLEX_DESCRIPTION = "complexDescription";
+    public static final String COMPLEX_DESCRIPTION = "complexDescription";
+    
     public static void main(String[] args) throws IOException, SAXException {
 
         DOMParser parser = new DOMParser();
-        parser.parse("src/by/training/task2/menu.xml");
+        parser.parse(PATH);
         Document document = parser.getDocument();
 
         Element root = document.getDocumentElement();
 
         List<Category> menu = new ArrayList<Category>();
 
-        NodeList categoryNodes = root.getElementsByTagName("category");
-        Category category = null;
+        NodeList categoryNodes = root.getElementsByTagName(CATEGORY);
+        Category category = null;                                                       //?????
         List<Food> foodList = null;
 
-        for(int i=0; i<categoryNodes.getLength();i++){
+        for(int i=0; i<categoryNodes.getLength(); i++){
             category = new Category();
             foodList = new ArrayList<Food>();
             Food food = null;
 
             Element categoryElement = (Element) categoryNodes.item(i);
-            NodeList foodNodes = categoryElement.getElementsByTagName("food"); //get complex type
+            NodeList foodNodes = categoryElement.getElementsByTagName(FOOD); //get complex type
 
-            category.setId(categoryElement.getAttribute("id"));
-            category.setName(categoryElement.getAttribute("name"));
+            category.setId(categoryElement.getAttribute(ID));
+            category.setName(categoryElement.getAttribute(NAME));
 
             for(int j=0; j<foodNodes.getLength();j++){
                 food = new Food();
 
                 Element foodElement = (Element) foodNodes.item(j);
 
-                food.setId((foodElement.getAttribute("id")));
-                food.setName((getSingleChild(foodElement,"name").getTextContent().trim()));
-                food.setPhoto((getSingleChild(foodElement,"photo").getTextContent().trim()));
+                food.setId((foodElement.getAttribute(ID)));
+                food.setName((getSingleChild(foodElement, NAME).getTextContent().trim()));
+                food.setPhoto((getSingleChild(foodElement, PHOTO).getTextContent().trim()));
 
                 getDescription(foodElement,food);
                 getPrice(foodElement,food);
@@ -57,14 +71,13 @@ public class DOMMenuParser {
             category.setFoods(foodList);
             menu.add(category);
         }
-        System.out.println("debug");
     }
 
     private static void getDescription(Element foodElement, Food food){
-        if (foodElement.getElementsByTagName("complexDescription").getLength() != 0){
+        if (foodElement.getElementsByTagName(COMPLEX_DESCRIPTION).getLength() != 0){
             ComplexDescription complexDescription = new ComplexDescription();
 
-            complexDescription.setHeader((getSingleChild(foodElement,"header").getTextContent().trim()));
+            complexDescription.setHeader((getSingleChild(foodElement,HEADER).getTextContent().trim()));
             NodeList descriptionNodes = foodElement.getElementsByTagName("addition");
 
             for(int k=0; k<descriptionNodes.getLength(); k++){
