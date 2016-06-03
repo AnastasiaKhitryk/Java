@@ -23,9 +23,12 @@ public class DOMMenuParser {
     public static final String COMPLEX_DESCRIPTION = "complexDescription";
     public static final String HEADER = "header";
     public static final String ADDITION = "addition"
-    public static final String COMPLEX_DESCRIPTION = "complexDescription";
-    public static final String COMPLEX_DESCRIPTION = "complexDescription";
-    public static final String COMPLEX_DESCRIPTION = "complexDescription";
+    public static final String PORTION = "portion";
+    public static final String DESCRIPTION = "description";
+    public static final String PRICE = "price";
+    public static final String COUNT = "count";
+    public static final String PRICE = "price";
+    public static final String COMPLEX_PRICE = "complexPrice"          //include?
     
     public static void main(String[] args) throws IOException, SAXException {
 
@@ -78,7 +81,7 @@ public class DOMMenuParser {
             ComplexDescription complexDescription = new ComplexDescription();
 
             complexDescription.setHeader((getSingleChild(foodElement,HEADER).getTextContent().trim()));
-            NodeList descriptionNodes = foodElement.getElementsByTagName("addition");
+            NodeList descriptionNodes = foodElement.getElementsByTagName(ADDITION);
 
             for(int k=0; k<descriptionNodes.getLength(); k++){
                 String context =(descriptionNodes.item(k).getTextContent());
@@ -90,7 +93,7 @@ public class DOMMenuParser {
             food.setComplexDescription(complexDescription);
         }
         else{
-            food.setDescription((getSingleChild(foodElement,"description").getTextContent().trim()));
+            food.setDescription((getSingleChild(foodElement, DESCRIPTION).getTextContent().trim()));
         }
     }
 
@@ -101,9 +104,9 @@ public class DOMMenuParser {
     }
 
     private static void getPrice(Element foodElement, Food food){
-        if (foodElement.getElementsByTagName("complexPrice").getLength() != 0){
+        if (foodElement.getElementsByTagName(COMPLEX_PRICE).getLength() != 0){
             ComplexPrice complexPrice = new ComplexPrice();
-            NodeList priceNodes = foodElement.getElementsByTagName("price");
+            NodeList priceNodes = foodElement.getElementsByTagName(PRICE);
             for(int k=0; k<priceNodes.getLength(); k++){
                 String context =(priceNodes.item(k).getTextContent());
                 if(context!=null) {
@@ -114,16 +117,16 @@ public class DOMMenuParser {
             food.setComplexPrice(complexPrice);
         }
         else{
-            food.setPrice((getSingleChild(foodElement,"price").getTextContent().trim()));
+            food.setPrice((getSingleChild(foodElement,PRICE).getTextContent().trim()));
         }
     }
 
     private static void getCount(Element foodElement, Food food){
-        if (foodElement.getElementsByTagName("portion").getLength() != 0){
-            food.setPortion((getSingleChild(foodElement,"portion").getTextContent().trim()));
+        if (foodElement.getElementsByTagName(PORTION).getLength() != 0){
+            food.setPortion((getSingleChild(foodElement,PORTION).getTextContent().trim()));
         }
         else{
-            food.setCount(getSingleChild(foodElement,"count").getTextContent().trim());
+            food.setCount(getSingleChild(foodElement,COUNT).getTextContent().trim());
         }
     }
 }
