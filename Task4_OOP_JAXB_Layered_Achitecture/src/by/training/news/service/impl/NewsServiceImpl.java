@@ -13,6 +13,17 @@ import org.json.simple.parser.ParseException;
 import java.util.List;
 
 public class NewsServiceImpl implements IService{
+    
+    private static final String CATEGORY = "category";
+    private static final String SUB_CATEGORY = "subcategory";
+    private static final String NAME = "name";
+    private static final String PROVIDER ="provider";
+    private static final String DATE = "date";
+    private static final String BODY = "body";
+    
+    private static final String PARSE_EXCEPTION = "ParseException";
+    private static final String DAO_EXCEPTION = "DAOException";
+    private static final String EMPTY = " "; 
 
     public void saveNewNews(String params) throws ServiceException {
         JSONParser parser = new JSONParser();
@@ -24,16 +35,16 @@ public class NewsServiceImpl implements IService{
         try{
             JSONObject object = (JSONObject) parser.parse(params);
 
-            category = (String) object.get("category");
-            subcategory = (String) object.get("subcategory");
+            category = (String) object.get(CATEGORY);
+            subcategory = (String) object.get(SUB_CATEGORY);
 
-            news.setName((String)object.get("name"));
-            news.setProvider((String)object.get("provider"));
-            news.setDate((String)object.get("date"));
-            news.setBody((String)object.get("body"));
+            news.setName((String)object.get(NAME));
+            news.setProvider((String)object.get(PROVIDER));
+            news.setDate((String)object.get(DATE));
+            news.setBody((String)object.get(BODY));
 
         } catch (ParseException ex) {
-            throw new ServiceException("ParseException",ex);
+            throw new ServiceException(PARSE_EXCEPTION,ex);
         }
 
         DAOFactory factory = DAOFactory.getInstance();
@@ -44,7 +55,7 @@ public class NewsServiceImpl implements IService{
             catalog = updateCatalog(catalog,category,subcategory,news);
             newsDAO.saveNews(catalog);
         }catch (DAOException ex){
-            throw new ServiceException("DAOException", ex);
+            throw new ServiceException(DAO_EXCEPTION, ex);
         }
 
     }
@@ -97,9 +108,7 @@ public class NewsServiceImpl implements IService{
 
             }
         }
-
-
-
+        
         return catalog;
     }
 
@@ -113,14 +122,14 @@ public class NewsServiceImpl implements IService{
 
         try{
             JSONObject object = (JSONObject) parser.parse(params);
-            criteria = (String )object.get("name");
+            criteria = (String )object.get(NAME);
             Catalog catalog = newsDAO.getCatalog();
             resultString = find(catalog, criteria);
 
         } catch (ParseException ex) {
-            throw new ServiceException("ParseException",ex);
+            throw new ServiceException(PARSE_EXCEPTION,ex);
         } catch (DAOException ex){
-            throw new ServiceException("DAOException",ex);
+            throw new ServiceException(DAO_EXCEPTION,ex);
         }
 
         return resultString;
@@ -128,7 +137,7 @@ public class NewsServiceImpl implements IService{
 
     private String find(Catalog catalog, String name){
 
-        String resultString = "";
+        String resultString = EMPTY;
 
         for(Category c: catalog.getCategoryList()){
             for(SubCategory s:c.getSubCategoryList()){
