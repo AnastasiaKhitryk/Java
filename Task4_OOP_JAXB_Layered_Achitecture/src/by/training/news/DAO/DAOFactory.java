@@ -1,6 +1,7 @@
-package by.training.news.DAO;
+package by.training.news.dao;
 
-import by.training.news.DAO.impl.NewsDAOImpl;
+
+import by.training.news.dao.impl.NewsDAOImpl;
 
 public class DAOFactory {
 

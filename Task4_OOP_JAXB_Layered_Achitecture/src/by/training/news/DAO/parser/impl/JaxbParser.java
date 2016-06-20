@@ -1,6 +1,6 @@
-package by.training.news.DAO.parser.impl;
+package by.training.news.dao.parser.impl;
 
-import by.training.news.DAO.parser.Parser;
+import by.training.news.dao.parser.Parser;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;

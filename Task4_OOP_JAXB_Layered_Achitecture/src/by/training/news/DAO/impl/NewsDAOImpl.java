@@ -1,8 +1,8 @@
-package by.training.news.DAO.impl;
+package by.training.news.dao.impl;
 
-import by.training.news.DAO.INewsDAO;
-import by.training.news.DAO.exception.DAOException;
-import by.training.news.DAO.parser.impl.JaxbParser;
+import by.training.news.dao.INewsDAO;
+import by.training.news.dao.exception.DAOException;
+import by.training.news.dao.parser.impl.JaxbParser;
 import by.training.news.domain.Catalog;
 import by.training.news.domain.Category;
 import by.training.news.domain.News;

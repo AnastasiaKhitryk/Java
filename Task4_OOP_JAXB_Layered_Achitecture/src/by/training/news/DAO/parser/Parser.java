@@ -1,4 +1,4 @@
-package by.training.news.DAO.parser;
+package by.training.news.dao.parser;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;

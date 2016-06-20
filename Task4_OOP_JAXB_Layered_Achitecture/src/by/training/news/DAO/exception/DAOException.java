@@ -1,4 +1,4 @@
-package by.training.news.DAO.exception;
+package by.training.news.dao.exception;
 
 public class DAOException extends Exception{
     public DAOException(){}
