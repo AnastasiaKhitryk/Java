@@ -1,16 +1,18 @@
 package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.SupplierDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Supplier;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MysqlSupplierDao implements SupplierDao{
+public class MysqlSupplierDao extends MysqlCommonActions implements SupplierDao{
 
     private Logger logger = Logger.getLogger(String.valueOf(MysqlSupplierDao.class));
 
@@ -22,14 +24,12 @@ public class MysqlSupplierDao implements SupplierDao{
     private final static String IMAGE = "image";
 
     @Override
-    public ArrayList<Supplier> getAllOrder() throws DaoException {
-        ArrayList<Supplier> supplierList = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
+    public List<Supplier> getAllOrder() throws DaoException {
+        List<Supplier> supplierList = new ArrayList<>();
+        Connection connection = getConnection();
+        Statement statement = getStatement(connection);
 
         try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_SUPPLIER);
 
             while (resultSet.next()){
@@ -45,27 +45,16 @@ public class MysqlSupplierDao implements SupplierDao{
         } catch (SQLException e) {
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException " + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                statement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException " + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException " + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(statement);
         }
 
         return supplierList;
     }
 
     @Override
-    public ArrayList<Supplier> getById(int id) throws DaoException {
+    public List<Supplier> getById(int id) throws DaoException {
         //TODO
         return null;
     }

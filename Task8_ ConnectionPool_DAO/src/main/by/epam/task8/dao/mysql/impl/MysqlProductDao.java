@@ -1,16 +1,15 @@
 package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.ProductDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Product;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MysqlProductDao implements ProductDao{
+public class MysqlProductDao extends MysqlCommonActions implements ProductDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlProductDao.class));
 
 
@@ -30,58 +29,41 @@ public class MysqlProductDao implements ProductDao{
     @Override
     public int addProduct(Product product) throws DaoException {
         int count;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, ADD_PRODUCT);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(ADD_PRODUCT);
-
+        try {
             preparedStatement.setInt(1, product.getCategory_id());
             preparedStatement.setString(2, product.getName());
             preparedStatement.setInt(3, product.getSupplier_id());
             preparedStatement.setBigDecimal(4, product.getPrice());
             preparedStatement.setBigDecimal(5, product.getQuantity());
-            preparedStatement.setBlob(6,product.getImage());
-            preparedStatement.setString(7,product.getDescription());
+            preparedStatement.setBlob(6, product.getImage());
+            preparedStatement.setString(7, product.getDescription());
             preparedStatement.setInt(8, product.getDiscount_id());
 
             count = preparedStatement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException" + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException" + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException" + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException" + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
         return count;
     }
 
     @Override
-    public ArrayList<Product> getById(int categoryId) throws DaoException {
-        ArrayList<Product> productList = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public List<Product> getById(int categoryId) throws DaoException {
+        List<Product> productList = new ArrayList<>();
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, SELECT_PRODUCT_BY_CATEGORY);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_CATEGORY);
-
+        try {
             preparedStatement.setInt(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Product product = new Product();
 
                 product.setId(resultSet.getInt(ID));
@@ -100,20 +82,9 @@ public class MysqlProductDao implements ProductDao{
         } catch (SQLException e) {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException" + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException" + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException" + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
 
         return productList;

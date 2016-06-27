@@ -1,18 +1,16 @@
 package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.DiscountDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Discount;
 import org.apache.log4j.Logger;
 
-
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MysqlDiscountDao implements DiscountDao{
+public class MysqlDiscountDao extends MysqlCommonActions implements DiscountDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlDiscountDao.class));
 
     private final static String ADD_DISCOUNT = "INSERT INTO discount(name,amount_of_discount,start_date_time,finish_date_time) VALUES (?,?,?,?)";
@@ -28,86 +26,56 @@ public class MysqlDiscountDao implements DiscountDao{
     @Override
     public int addNewDiscount(Discount discount) throws DaoException {
         int count;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, ADD_DISCOUNT);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(ADD_DISCOUNT);
-
+        try {
             preparedStatement.setString(1, discount.getName());
             preparedStatement.setInt(2, discount.getAmount_of_discount());
             preparedStatement.setDate(3, discount.getStart_date_time());
             preparedStatement.setDate(4, discount.getFinish_date_time());
 
             count = preparedStatement.executeUpdate();
-        }catch (SQLException e){
-            logger.error("SQLException "+ e);
+        } catch (SQLException e) {
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException "+ e);
-            throw new DaoException("ConnectionPoolException" + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
         return count;
     }
 
     @Override
-    public int deleteDiscountById(int id) throws DaoException{
+    public int deleteDiscountById(int id) throws DaoException {
         int count = 0;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, DELETE_DISCOUNT_BY_ID);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_DISCOUNT_BY_ID);
-
+        try {
             preparedStatement.setInt(1, id);
             count = preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            logger.error("SQLException "+ e);
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException "+ e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
         return count;
     }
 
     @Override
-    public ArrayList<Discount> extractAllDiscount() throws DaoException{
-        ArrayList<Discount> discountList = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
+    public List<Discount> extractAllDiscount() throws DaoException {
+        List<Discount> discountList = new ArrayList<>();
+        Connection connection = getConnection();
+        Statement statement = getStatement(connection);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
+        try {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_DISCOUNT);
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Discount discount = new Discount();
 
                 discount.setId(resultSet.getInt(ID));
@@ -119,22 +87,11 @@ public class MysqlDiscountDao implements DiscountDao{
                 discountList.add(discount);
             }
         } catch (SQLException e) {
-            logger.error("SQLException "+ e);
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException "+ e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                statement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(statement);
         }
 
         return discountList;
@@ -142,7 +99,7 @@ public class MysqlDiscountDao implements DiscountDao{
 
 
     @Override
-    public ArrayList<Discount> getById(int id) throws DaoException {
+    public List<Discount> getById(int id) throws DaoException {
         //TODO
         return null;
 

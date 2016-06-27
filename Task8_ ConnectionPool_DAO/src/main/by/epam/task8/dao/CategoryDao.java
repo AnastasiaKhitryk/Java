@@ -4,7 +4,8 @@ import by.epam.task8.dao.exception.DaoException;
 import by.epam.task8.entity.Category;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CategoryDao extends CommonDao<Category>{
-    ArrayList<Category> getAllCategory() throws DaoException;
+    List<Category> getAllCategory() throws DaoException;
 }

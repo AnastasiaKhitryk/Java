@@ -5,7 +5,8 @@ import by.epam.task8.entity.Supplier;
 import by.epam.task8.entity.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SupplierDao extends CommonDao<Supplier>{
-    ArrayList<Supplier> getAllOrder() throws DaoException;
+    List<Supplier> getAllOrder() throws DaoException;
 }

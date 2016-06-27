@@ -2,16 +2,15 @@ package by.epam.task8.dao.mysql.impl;
 
 
 import by.epam.task8.dao.OrderDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Order;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MysqlOrderDao implements OrderDao{
+public class MysqlOrderDao extends MysqlCommonActions implements OrderDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlOrderDao.class));
 
     private final static String INSERT_ORDER = "INSERT INTO order (user_id, total_price, status, delivery_type, address, phone, payment_type, date, order_detail) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -33,142 +32,91 @@ public class MysqlOrderDao implements OrderDao{
     @Override
     public int addOrder(Order order) throws DaoException {
         int count;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, INSERT_ORDER);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(INSERT_ORDER);
-
-            preparedStatement.setInt(1,order.getUser_id());
-            preparedStatement.setBigDecimal(2,order.getTotal_price());
-            preparedStatement.setString(3,order.getStatus());
-            preparedStatement.setString(4,order.getDelivery_type());
-            preparedStatement.setString(5,order.getAddress());
-            preparedStatement.setString(6,order.getAddress());
-            preparedStatement.setString(7,order.getPhone());
-            preparedStatement.setString(8,order.getPayment_type());
-            preparedStatement.setDate(9,order.getDate());
-            preparedStatement.setString(10,order.getOrder_detail());
+        try {
+            preparedStatement.setInt(1, order.getUser_id());
+            preparedStatement.setBigDecimal(2, order.getTotal_price());
+            preparedStatement.setString(3, order.getStatus());
+            preparedStatement.setString(4, order.getDelivery_type());
+            preparedStatement.setString(5, order.getAddress());
+            preparedStatement.setString(6, order.getAddress());
+            preparedStatement.setString(7, order.getPhone());
+            preparedStatement.setString(8, order.getPayment_type());
+            preparedStatement.setDate(9, order.getDate());
+            preparedStatement.setString(10, order.getOrder_detail());
 
             count = preparedStatement.executeUpdate();
-        }catch (SQLException e){
-            logger.error("SQLException "+ e);
+        } catch (SQLException e) {
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
-        } catch (ConnectionPoolException e) {
-            logger.error(e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
         return count;
     }
 
     @Override
-    public ArrayList<Order> getAllOrder() throws DaoException {
-        ArrayList<Order> orderList = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
+    public List<Order> getAllOrder() throws DaoException {
+        List<Order> orderList = null;
+        Connection connection = getConnection();
+        Statement statement = getStatement(connection);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
+        try {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_ORDERS);
-
-            while (resultSet.next()){
-                Order order = new Order();
-
-                order.setId(resultSet.getInt(ID));
-                order.setUser_id(resultSet.getInt(USER_ID));
-                order.setTotal_price(resultSet.getBigDecimal(TOTAL_PRICE));
-                order.setStatus(resultSet.getString(STATUS));
-                order.setDelivery_type(resultSet.getString(DELIVERY_TYPE));
-                order.setAddress(resultSet.getString(ADDRESS));
-                order.setPhone(resultSet.getString(PHONE));
-                order.setPayment_type(resultSet.getString(PAYMENT_TYPE));
-                order.setDate(resultSet.getDate(DATE));
-                order.setOrder_detail(resultSet.getString(ORDER_DETAIL));
-
-                orderList.add(order);
-            }
+            orderList = getOrderList(resultSet);
         } catch (SQLException e) {
-            logger.error("SQLException "+ e);
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException "+ e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                statement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(statement);
         }
 
         return orderList;
     }
 
     @Override
-    public ArrayList<Order> getById(int userId) throws DaoException {
-        ArrayList<Order> orderList = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public List<Order> getById(int userId) throws DaoException {
+        List<Order> orderList = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, GET_ALL_ORDER_BY_USER_ID);
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(GET_ALL_ORDER_BY_USER_ID);
-
+        try {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                Order order = new Order();
-
-                order.setId(resultSet.getInt(ID));
-                order.setUser_id(resultSet.getInt(USER_ID));
-                order.setTotal_price(resultSet.getBigDecimal(TOTAL_PRICE));
-                order.setStatus(resultSet.getString(STATUS));
-                order.setDelivery_type(resultSet.getString(DELIVERY_TYPE));
-                order.setAddress(resultSet.getString(ADDRESS));
-                order.setPhone(resultSet.getString(PHONE));
-                order.setPayment_type(resultSet.getString(PAYMENT_TYPE));
-                order.setDate(resultSet.getDate(DATE));
-                order.setOrder_detail(resultSet.getString(ORDER_DETAIL));
-
-                orderList.add(order);
-            }
+            orderList = getOrderList(resultSet);
 
         } catch (SQLException e) {
-            logger.error("SQLException "+ e);
+            logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException "+ e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException "+ e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException "+ e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
+        }
+
+        return orderList;
+    }
+
+    private List<Order> getOrderList(ResultSet resultSet) throws SQLException {
+        List<Order> orderList = new ArrayList<>();
+        while (resultSet.next()) {
+            Order order = new Order();
+
+            order.setId(resultSet.getInt(ID));
+            order.setUser_id(resultSet.getInt(USER_ID));
+            order.setTotal_price(resultSet.getBigDecimal(TOTAL_PRICE));
+            order.setStatus(resultSet.getString(STATUS));
+            order.setDelivery_type(resultSet.getString(DELIVERY_TYPE));
+            order.setAddress(resultSet.getString(ADDRESS));
+            order.setPhone(resultSet.getString(PHONE));
+            order.setPayment_type(resultSet.getString(PAYMENT_TYPE));
+            order.setDate(resultSet.getDate(DATE));
+            order.setOrder_detail(resultSet.getString(ORDER_DETAIL));
+
+            orderList.add(order);
         }
 
         return orderList;

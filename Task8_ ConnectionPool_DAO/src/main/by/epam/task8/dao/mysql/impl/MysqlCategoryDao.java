@@ -1,17 +1,16 @@
 package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.CategoryDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Category;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class MysqlCategoryDao implements CategoryDao{
+public class MysqlCategoryDao extends MysqlCommonActions implements CategoryDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlCategoryDao.class));
 
     private final static String SELECT_ALL_CATEGORY = "SELECT * FROM category where parent_id = null";
@@ -23,17 +22,16 @@ public class MysqlCategoryDao implements CategoryDao{
     private final static String PARENT_ID = "parent_id";
 
     @Override
-    public ArrayList<Category> getAllCategory() throws DaoException{
-        ArrayList<Category> categoryList = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
+    public List<Category> getAllCategory() throws DaoException {
+        List<Category> categoryList = new ArrayList<>();
 
-        try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
+        Connection connection = getConnection();
+        Statement statement = getStatement(connection);
+
+        try {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_CATEGORY);
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Category category = new Category();
 
                 category.setId(resultSet.getInt(ID));
@@ -45,30 +43,18 @@ public class MysqlCategoryDao implements CategoryDao{
                 categoryList.add(category);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException " + e);
-            throw new DaoException("ConnectionPoolException" + e);
         } finally {
-            try{
-                statement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException " + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException " + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(statement);
         }
         return categoryList;
     }
 
-
     @Override
-    public ArrayList<Category> getById(int id) throws DaoException {
+    public List<Category> getById(int id) throws DaoException {
         //TODO
         return null;
     }

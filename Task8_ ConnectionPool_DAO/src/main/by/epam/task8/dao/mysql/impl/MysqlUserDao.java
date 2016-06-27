@@ -1,17 +1,16 @@
 package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.UserDao;
-import by.epam.task8.dao.exception.ConnectionPoolException;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.User;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class MysqlUserDao implements UserDao {
+public class MysqlUserDao extends  MysqlCommonActions implements UserDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlUserDao.class));
 
     private final static String ADD_USER = "INSERT INTO user (email, password, role) VALUES (?,?,?)";
@@ -26,13 +25,10 @@ public class MysqlUserDao implements UserDao {
     @Override
     public int addUser(User user) throws DaoException {
         int count;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, ADD_USER);
 
         try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(ADD_USER);
-
             preparedStatement.setString(1,user.getEmail());
             preparedStatement.setString(2,user.getPassword());
             preparedStatement.setString(3,user.getRole());
@@ -41,109 +37,67 @@ public class MysqlUserDao implements UserDao {
         }catch (SQLException e){
             logger.error("SQLException" + e);
             throw new DaoException("SQLException" + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException" + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException" + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException" + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
         return count;
     }
 
     @Override
-    public ArrayList<User> getById(int id) throws DaoException {
-        ArrayList<User> userList = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public List<User> getById(int id) throws DaoException {
+        List<User> userList = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = getPreparedStatement(connection, GET_USER_BY_ID);
 
         try{
-            connection = ConnectionPool.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(GET_USER_BY_ID);
-
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                User user = new User();
-
-                user.setId(resultSet.getInt(ID));
-                user.setEmail(resultSet.getString(EMAIL));
-                user.setPassword(resultSet.getString(PASSWORD));
-                user.setRole(resultSet.getString(ROLE));
-
-                userList.add(user);
-            }
+            userList = getUserList(resultSet);
 
         } catch (SQLException e) {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException" + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                preparedStatement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException" + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException" + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(preparedStatement);
         }
 
         return userList;
     }
 
     @Override
-    public ArrayList<User> getAllUser() throws DaoException {
-        ArrayList<User> userList = new ArrayList<>();
-        Connection connection = null;
-        Statement statement = null;
+    public List<User> getAllUser() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        Connection connection = getConnection();
+        Statement statement = getStatement(connection);
 
         try{
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ALL_USER);
-
-            while (resultSet.next()){
-                User user = new User();
-
-                user.setId(resultSet.getInt(ID));
-                user.setEmail(resultSet.getString(EMAIL));
-                user.setPassword(resultSet.getString(PASSWORD));
-                user.setRole(resultSet.getString(ROLE));
-
-                userList.add(user);
-            }
+            userList = getUserList(resultSet);
 
         } catch (SQLException e) {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
-        } catch (ConnectionPoolException e) {
-            logger.error("ConnectionPoolException" + e);
-            throw new DaoException("ConnectionPoolException " + e);
         } finally {
-            try{
-                statement.close();
-                ConnectionPool.getInstance().releaseConnection(connection);
-            }catch (SQLException e){
-                logger.error("SQLException" + e);
-                throw new DaoException("SQLException" + e);
-            }catch (ConnectionPoolException e){
-                logger.error("ConnectionPoolException" + e);
-                throw new DaoException("ConnectionPoolException" + e);
-            }
+            releaseConnection(connection);
+            closeStatement(statement);
+        }
+
+        return userList;
+    }
+
+    private List<User> getUserList(ResultSet resultSet) throws SQLException {
+        ArrayList<User> userList = new ArrayList<>();
+        while (resultSet.next()){
+            User user = new User();
+
+            user.setId(resultSet.getInt(ID));
+            user.setEmail(resultSet.getString(EMAIL));
+            user.setPassword(resultSet.getString(PASSWORD));
+            user.setRole(resultSet.getString(ROLE));
+
+            userList.add(user);
         }
 
         return userList;

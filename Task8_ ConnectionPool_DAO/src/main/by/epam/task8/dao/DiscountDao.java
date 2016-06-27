@@ -4,10 +4,11 @@ import by.epam.task8.dao.exception.DaoException;
 import by.epam.task8.entity.Discount;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface DiscountDao extends CommonDao<Discount>{
-    int addDiscount(Discount discount) throws DaoException;
+    int addNewDiscount(Discount discount) throws DaoException;
     int deleteDiscountById(int id) throws DaoException;
-    ArrayList<Discount> extractAllDiscount() throws DaoException;
+    List<Discount> extractAllDiscount() throws DaoException;
 }
 
