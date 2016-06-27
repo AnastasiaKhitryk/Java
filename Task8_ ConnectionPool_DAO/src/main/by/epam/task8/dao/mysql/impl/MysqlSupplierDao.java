@@ -46,8 +46,7 @@ public class MysqlSupplierDao extends MysqlCommonActions implements SupplierDao{
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
 
         return supplierList;

@@ -40,8 +40,7 @@ public class MysqlDiscountDao extends MysqlCommonActions implements DiscountDao 
             logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
         return count;
     }
@@ -60,8 +59,7 @@ public class MysqlDiscountDao extends MysqlCommonActions implements DiscountDao 
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
         return count;
     }
@@ -90,8 +88,7 @@ public class MysqlDiscountDao extends MysqlCommonActions implements DiscountDao 
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
 
         return discountList;

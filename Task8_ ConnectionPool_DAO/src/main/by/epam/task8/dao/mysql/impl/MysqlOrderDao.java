@@ -52,8 +52,7 @@ public class MysqlOrderDao extends MysqlCommonActions implements OrderDao {
             logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
         return count;
     }
@@ -71,8 +70,7 @@ public class MysqlOrderDao extends MysqlCommonActions implements OrderDao {
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
 
         return orderList;
@@ -93,8 +91,7 @@ public class MysqlOrderDao extends MysqlCommonActions implements OrderDao {
             logger.error("SQLException " + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
 
         return orderList;

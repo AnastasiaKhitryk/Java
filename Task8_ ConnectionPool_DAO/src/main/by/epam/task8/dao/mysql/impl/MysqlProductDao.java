@@ -47,8 +47,7 @@ public class MysqlProductDao extends MysqlCommonActions implements ProductDao {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
         return count;
     }
@@ -83,8 +82,7 @@ public class MysqlProductDao extends MysqlCommonActions implements ProductDao {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
 
         return productList;

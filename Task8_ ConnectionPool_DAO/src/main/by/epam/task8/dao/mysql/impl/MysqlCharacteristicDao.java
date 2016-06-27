@@ -43,8 +43,7 @@ public class MysqlCharacteristicDao extends MysqlCommonActions implements Charac
             logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
         return characteristicList;
     }

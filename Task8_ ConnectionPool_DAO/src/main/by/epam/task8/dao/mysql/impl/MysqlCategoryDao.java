@@ -2,6 +2,7 @@ package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.CategoryDao;
 import by.epam.task8.dao.exception.DaoException;
+import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Category;
 import org.apache.log4j.Logger;
 
@@ -47,8 +48,7 @@ public class MysqlCategoryDao extends MysqlCommonActions implements CategoryDao 
             logger.error("SQLException " + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
         return categoryList;
     }

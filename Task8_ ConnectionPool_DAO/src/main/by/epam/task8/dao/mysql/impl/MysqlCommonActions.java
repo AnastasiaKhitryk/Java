@@ -63,4 +63,9 @@ class MysqlCommonActions {
             throw new DaoException("SQLException" + e);
         }
     }
+
+    void releaseData(Statement statement, Connection connection) throws DaoException {
+        closeStatement(statement);
+        releaseConnection(connection);
+    }
 }

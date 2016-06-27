@@ -38,8 +38,7 @@ public class MysqlUserDao extends  MysqlCommonActions implements UserDao {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException" + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
         return count;
     }
@@ -59,8 +58,7 @@ public class MysqlUserDao extends  MysqlCommonActions implements UserDao {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(preparedStatement);
+            releaseData(preparedStatement, connection);
         }
 
         return userList;
@@ -80,8 +78,7 @@ public class MysqlUserDao extends  MysqlCommonActions implements UserDao {
             logger.error("SQLException" + e);
             throw new DaoException("SQLException " + e);
         } finally {
-            releaseConnection(connection);
-            closeStatement(statement);
+            releaseData(statement, connection);
         }
 
         return userList;
