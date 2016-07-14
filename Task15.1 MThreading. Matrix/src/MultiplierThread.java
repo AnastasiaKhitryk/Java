@@ -5,7 +5,12 @@ public class MultiplierThread extends Thread{
     private final int firstIndex;
     private final int lastIndex;
     private final int sumLength;
-
+    /*
+    в каждый новый поток в качестве параметров передаются непосредственно инициализированные матрицы
+    ссылка на результирующую, а так же начальный и конечный индекс, уникальные для каждого потока
+    Таким образом, можно избежать использования инструментов синхронизации, т.к. каждый поток
+    работает со своим уникальным набором значений.
+    */
     public MultiplierThread(final int[][] firstMatrix,
                             final int[][] secondMatrix,
                             final int[][] resultMatrix,
@@ -19,24 +24,22 @@ public class MultiplierThread extends Thread{
         sumLength = secondMatrix.length;
 
     }
-    private void calcValue(final int row, final int col)
-    {
-        int sum = 0;
-        for (int i = 0; i < sumLength; ++i)
-            sum += firstMatrix[row][i] * secondMatrix[i][col];
-        resultMatrix[row][col] = sum;
-    }
-
     @Override
     public void run()
     {
-        System.out.println("Thread " + getName() + " started. Calculating cells from " + firstIndex + " to " + lastIndex + "...");
-
         final int colCount = secondMatrix[0].length;
-        for (int index = firstIndex; index < lastIndex; ++index)
+        for (int index = firstIndex; index < lastIndex; ++index){
             calcValue(index / colCount, index % colCount);
+        }
+    }
 
-        System.out.println("Thread " + getName() + " finished.\n");
+    private void calcValue(final int row, final int col)
+    {
+        int sum = 0;
+        for (int i = 0; i < sumLength; ++i){
+            sum += firstMatrix[row][i] * secondMatrix[i][col];
+        }
+        resultMatrix[row][col] = sum;
     }
 }
 
