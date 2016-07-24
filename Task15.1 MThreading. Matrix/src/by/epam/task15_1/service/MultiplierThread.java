@@ -1,3 +1,5 @@
+package by.epam.task15_1.service;
+
 public class MultiplierThread extends Thread{
     private final int[][] firstMatrix;
     private final int[][] secondMatrix;

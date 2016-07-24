@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MysqlCharacteristicDao extends MysqlCommonActions implements CharacteristicDao {
+public class MysqlCharacteristicDao extends MysqlCommonAction implements CharacteristicDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlCharacteristicDao.class));
 
     private final static String SELECT_ALL_CHARACTERISTIC = "SELECT * FROM characteristic";

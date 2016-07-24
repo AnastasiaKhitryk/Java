@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MysqlUserDao extends  MysqlCommonActions implements UserDao {
+public class MysqlUserDao extends MysqlCommonAction implements UserDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlUserDao.class));
 
     private final static String ADD_USER = "INSERT INTO user (email, password, role) VALUES (?,?,?)";

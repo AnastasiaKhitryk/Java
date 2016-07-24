@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MysqlSupplierDao extends MysqlCommonActions implements SupplierDao{
+public class MysqlSupplierDao extends MysqlCommonAction implements SupplierDao{
 
     private Logger logger = Logger.getLogger(String.valueOf(MysqlSupplierDao.class));
 

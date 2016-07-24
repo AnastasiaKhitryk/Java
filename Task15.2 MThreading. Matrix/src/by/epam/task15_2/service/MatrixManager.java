@@ -1,4 +1,5 @@
-package task15;
+package by.epam.task15_2.service;
+
 
 import java.util.Random;
 
@@ -19,15 +20,14 @@ public class MatrixManager implements Runnable{
         isInitialize = false;
     }
 
-
     @Override
     public void run(){
         synchronized (this){
             if(!isInitialize){
                 initialize(firstMatrix);
-                print(firstMatrix);
+                //print(firstMatrix);
                 initialize(secondMatrix);
-                print(secondMatrix);
+                //print(secondMatrix);
                 isInitialize = true;
             }
         }
@@ -38,6 +38,34 @@ public class MatrixManager implements Runnable{
         if(Thread.currentThread().getName().equals(second_thread_name)){
             multiplyMatrix(1,0);
         }
+    }
+
+    public void initialize(int[][] matrix){
+        Random random = new Random();
+        for(int row=0; row<matrix.length; row++){
+            for (int col=0; col<matrix[0].length; col++){
+                matrix[row][col] = random.nextInt(20);
+            }
+        }
+    }
+    public void printResultMatrix( ){
+        for(int row=0; row<resultMatrix.length; row++){
+            for(int col = 0; col<resultMatrix[0].length; col++){
+                System.out.print(resultMatrix[row][col]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public void print(int[][] matrix){
+        for(int row=0; row<matrix.length; row++){
+            for(int col = 0; col<matrix[0].length; col++){
+                System.out.print(matrix[row][col]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     private void multiplyMatrix(int firstRowIndex, int firstColIndex){
@@ -55,35 +83,4 @@ public class MatrixManager implements Runnable{
         }
         return result;
     }
-
-    private void initialize(int[][] matrix){
-        Random random = new Random();
-        for(int row=0; row<matrix.length; row++){
-            for (int col=0; col<matrix[0].length; col++){
-                matrix[row][col] = random.nextInt(20);
-            }
-        }
-    }
-
-    public void printResultMatrix( ){
-        for(int row=0; row<resultMatrix.length; row++){
-            for(int col = 0; col<resultMatrix[0].length; col++){
-                System.out.print(resultMatrix[row][col]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    private void print(int[][] matrix){
-        for(int row=0; row<matrix.length; row++){
-            for(int col = 0; col<matrix[0].length; col++){
-                System.out.print(matrix[row][col]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-
 }

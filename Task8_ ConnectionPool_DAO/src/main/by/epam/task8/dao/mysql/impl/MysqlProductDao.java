@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MysqlProductDao extends MysqlCommonActions implements ProductDao {
+public class MysqlProductDao extends MysqlCommonAction implements ProductDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlProductDao.class));
 
 

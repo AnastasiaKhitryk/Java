@@ -2,7 +2,6 @@ package by.epam.task8.dao.mysql.impl;
 
 import by.epam.task8.dao.CategoryDao;
 import by.epam.task8.dao.exception.DaoException;
-import by.epam.task8.dao.mysql.connection.ConnectionPool;
 import by.epam.task8.entity.Category;
 import org.apache.log4j.Logger;
 
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MysqlCategoryDao extends MysqlCommonActions implements CategoryDao {
-    private Logger logger = Logger.getLogger(String.valueOf(MysqlCategoryDao.class));
+public class MysqlCategoryDao extends MysqlCommonAction implements CategoryDao {
+    private final static Logger logger = Logger.getLogger(String.valueOf(MysqlCategoryDao.class));
 
     private final static String SELECT_ALL_CATEGORY = "SELECT * FROM category where parent_id = null";
 

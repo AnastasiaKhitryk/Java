@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 
 public class MysqlDaoFactory extends DaoFactory {
 
+    private final static Logger logger = Logger.getLogger(MysqlDaoFactory);
+
     private final CategoryDao mysqlCategoryDao = new MysqlCategoryDao();
     private final CharacteristicDao mysqlCharacteristicDao = new MysqlCharacteristicDao();
     private final DiscountDao mysqlDiscountDao = new MysqlDiscountDao();
@@ -13,8 +15,6 @@ public class MysqlDaoFactory extends DaoFactory {
     private final ProductDao mysqlProductDao = new MysqlProductDao();
     private final SupplierDao mysqlSupplierDao = new MysqlSupplierDao();
     private final UserDao mysqlUserDao = new MysqlUserDao();
-
-    private Logger logger = Logger.getLogger(getClass());
 
     @Override
     public CategoryDao getCategoryDAO() {

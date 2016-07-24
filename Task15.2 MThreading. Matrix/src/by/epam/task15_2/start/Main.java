@@ -1,11 +1,14 @@
-package task15;
+package by.epam.task15_2.start;
+
+import by.epam.task15_2.service.MatrixManager;
 
 public class Main {
-    private static final int MATRIX_LENGTH = 3;
+    private static final int MATRIX_LENGTH = 300;
     private static final String FIRST_THREAD_NAME = "1";
     private static final String SECOND_THREAD_NAME = "2";
 
     public static void main(String[] args) throws InterruptedException {
+        long startTime = System.currentTimeMillis();
         MatrixManager matrixManager = new MatrixManager(MATRIX_LENGTH,FIRST_THREAD_NAME,SECOND_THREAD_NAME);
 
         Thread thread1 = new Thread(matrixManager);
@@ -20,6 +23,8 @@ public class Main {
         thread1.join();
         thread2.join();
 
-        matrixManager.printResultMatrix();
+        //matrixManager.printResultMatrix();
+        long timeSpent = System.currentTimeMillis() - startTime;
+        System.out.println("программа выполнялась " + timeSpent + " миллисекунд");
     }
 }

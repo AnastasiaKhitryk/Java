@@ -10,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class MysqlCommonActions {
-    private Logger logger = Logger.getLogger(String.valueOf(MysqlCommonActions.class));
+class MysqlCommonAction {
+    private Logger logger = Logger.getLogger(String.valueOf(MysqlCommonAction.class));
 
     Connection getConnection() throws DaoException {
         Connection connection;

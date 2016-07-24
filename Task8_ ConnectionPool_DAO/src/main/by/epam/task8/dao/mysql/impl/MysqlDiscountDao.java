@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MysqlDiscountDao extends MysqlCommonActions implements DiscountDao {
+public class MysqlDiscountDao extends MysqlCommonAction implements DiscountDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlDiscountDao.class));
 
     private final static String ADD_DISCOUNT = "INSERT INTO discount(name,amount_of_discount,start_date_time,finish_date_time) VALUES (?,?,?,?)";

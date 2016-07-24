@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MysqlOrderDao extends MysqlCommonActions implements OrderDao {
+public class MysqlOrderDao extends MysqlCommonAction implements OrderDao {
     private Logger logger = Logger.getLogger(String.valueOf(MysqlOrderDao.class));
 
     private final static String INSERT_ORDER = "INSERT INTO order (user_id, total_price, status, delivery_type, address, phone, payment_type, date, order_detail) VALUES (?,?,?,?,?,?,?,?,?)";

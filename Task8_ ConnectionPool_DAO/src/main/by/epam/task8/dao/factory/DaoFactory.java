@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 
 public abstract class DaoFactory {
 
-    private static final DaoFactory mySqlDaoFactory = new MysqlDaoFactory();
-
     private Logger logger = Logger.getLogger(getClass());
+
+    private static final DaoFactory mySqlDaoFactory = new MysqlDaoFactory();
 
     public static final int MYSQL = 1;
     public static final int XMLFILE = 2;
