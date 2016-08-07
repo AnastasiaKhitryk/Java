@@ -9,5 +9,8 @@
 <body>
 	<h1>Login App using HttpSession</h1>
 	<a href="Controller?command=login">Login</a>|
+	
+	<h1>REGISTRATION App using HttpSession</h1>
+	<a href="Controller?command=registration">REGISTRATION</a>|
  </body>
 </html>

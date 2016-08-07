@@ -1,5 +1,5 @@
 package main.java.com.esport.domain;
 
 public enum UserRole {
-	GUEST,USER,MODERATOR,ADMINISTRATOR
+	GUEST,USER,MODERATOR,ADMINISTRATOR,администратор,пользователь
 }

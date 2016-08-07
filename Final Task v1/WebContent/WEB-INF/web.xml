@@ -13,5 +13,7 @@
         <servlet-name>Controller</servlet-name>
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
-  
+      <listener>
+        <listener-class>main.java.com.esport.controller.listener.MysqlConnectionPoolListener</listener-class>
+    </listener>
 </web-app>

@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import main.java.com.esport.command.Command;
 
-public class WelcomeCommand implements Command{
+public class HelloCommand implements Command{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		       // todo		
-				request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
-		    }
+		System.out.println("It's HelloCommand");
+		request.getRequestDispatcher("WEB-INF/jsp/index.jsp").forward(request, response);
+		
+		
+	}
 
 }

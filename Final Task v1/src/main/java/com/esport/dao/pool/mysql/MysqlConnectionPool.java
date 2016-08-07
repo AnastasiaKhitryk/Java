@@ -19,7 +19,7 @@ public class MysqlConnectionPool {
     private static final String DB_USERNAME = "DB_USERNAME";
     private static final String DB_PASSWORD = "DB_PASSWORD";
     private static final String DB_DRIVER = "DB_DRIVER";
-    private static final String RESOURCE_BUNDLE_NAME = "resource.db";
+    private static final String RESOURCE_BUNDLE_NAME = "resource/db";
     
     private String databaseUrl;
     private String userLogin;

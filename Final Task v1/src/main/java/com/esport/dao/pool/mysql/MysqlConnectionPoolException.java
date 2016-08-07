@@ -1,6 +1,6 @@
 package main.java.com.esport.dao.pool.mysql;
 
-public class MysqlConnectionPoolException extends Throwable{
+public class MysqlConnectionPoolException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 
