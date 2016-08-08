@@ -1,8 +1,6 @@
 package port;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 import warehouse.Container;
 import warehouse.Warehouse;
@@ -23,25 +21,25 @@ public class Berth {
 
 	public boolean add(Warehouse shipWarehouse, int numberOfConteiners) throws InterruptedException {
 		boolean result = false;
-			
-		boolean portLock = false;
-		
+
+		List<Conteiner> conteiners = shipWarehouse.getContainer(numberOfConteiners);
 		synchronized (portWarehouse) {
-			synchronized (shipWarehouse) {
-				
-			}
+			result = portWarehouse.addContainer(conteiners);
 		}
-		
-		
 		return result;
-		
 	}
-	
-	
 
 	public boolean get(Warehouse shipWarehouse, int numberOfConteiners) throws InterruptedException {
 		boolean result = false;
-		
+
+		List<Conteiner> conteiners = null;
+		synchronized (portWarehouse) {
+			conteiners = portWarehouse.getContainer(numberOfConteiners);
+		}
+		if(containers != null){
+			shipWarehouse.addContainer(containers);
+			result = true;
+		}
 		return result;
 	}
 	

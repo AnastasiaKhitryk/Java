@@ -2,21 +2,20 @@ package warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
 	private List<Container> containerList;
 	private int size;
-	//private Lock lock;
 
 	public Warehouse(int size) {
 		containerList = new ArrayList<Container>(size);
-		//lock = new ReentrantLock();
 		this.size = size;
 	}
 
-	public boolean addContainer(Container container) {	
+	public boolean addContainer(Container container) {
+		if(container.size()==size){
+			return false;
+		}
 		return containerList.add(container);
 	}
 
@@ -55,8 +54,5 @@ public class Warehouse {
 	public int getFreeSize(){
 		return size - containerList.size();
 	}
-	
-	/*public Lock getLock(){
-		return lock;
-	}*/	
+
 }

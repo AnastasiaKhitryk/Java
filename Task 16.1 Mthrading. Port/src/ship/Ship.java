@@ -26,9 +26,9 @@ public class Ship implements Runnable {
 		shipWarehouse = new Warehouse(shipWarehouseSize);
 	}
 
-	/*public void setContainersToWarehouse(List<Container> containerList) {
+	public void setContainersToWarehouse(List<Container> containerList) {
 		shipWarehouse.addContainer(containerList);
-	}*/
+	}
 
 	public String getName() {
 		return name;
@@ -44,10 +44,8 @@ public class Ship implements Runnable {
 				atSea();
 				inPort();
 			}
-		} catch (InterruptedException e) {
+		} catch (InterruptedException|PortException e) {
 			logger.error("С кораблем случилась неприятность и он уничтожен.", e);
-		} catch (PortException e) {
-			logger.error("С кораблем случилась неприятность и он уничтожен.", e);//!!! переписать сообщение
 		}
 	}
 
@@ -93,7 +91,7 @@ public class Ship implements Runnable {
 
 	private boolean loadToPort(Berth berth) throws InterruptedException {
 
-		int containersNumberToMove = conteinersCount();
+		int containersNumberToMove = conteinersCountToPort();
 		boolean result = false;
 
 		logger.debug("Корабль " + name + " хочет загрузить " + containersNumberToMove
@@ -114,7 +112,7 @@ public class Ship implements Runnable {
 
 	private boolean loadFromPort(Berth berth) throws InterruptedException {
 		
-		int containersNumberToMove = conteinersCount();
+		int containersNumberToMove = conteinersCountFromPort();
 		
 		boolean result = false;
 
@@ -130,13 +128,23 @@ public class Ship implements Runnable {
 			logger.debug("Недостаточно места на на корабле " + name
 					+ " для погрузки " + containersNumberToMove + " контейнеров из порта.");
 		}
-		
 		return result;
 	}
 
-	private int conteinersCount() {//!!!!
+	private int conteinersCountToPort() {
+		if(shipWarehouse.getRealSize() == 0){
+			return 0;
+		}
 		Random random = new Random();
-		return random.nextInt(20) + 1;
+		return random.nextInt(shipWarehouse.getRealSize());
+	}
+
+	private int conteinersCountFromPort() {
+		if(shipWarehouse.getRealSize() == 0){
+			return 0;
+		}
+		Random random = new Random();
+		return random.nextInt(shipWarehouse.getRealSize());
 	}
 
 	private ShipAction getNextAction() {
